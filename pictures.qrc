@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/new/Pic_">
+        <file>Picture/管理者.png</file>
+        <file>Picture/客户.png</file>
+        <file>Picture/Logo_Signin.png</file>
+        <file>Picture/logo_behind.png</file>
+        <file>Picture/Activ.png</file>
+        <file>Picture/搜索.png</file>
+        <file>Picture/alipay.png</file>
+        <file>Picture/cashpay.jpg</file>
+        <file>Picture/unionpay.jpg</file>
+        <file>Picture/wechatpay.png</file>
+        <file>Picture/Test.png</file>
+    </qresource>
+</RCC>
