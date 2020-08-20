@@ -114,9 +114,12 @@ struct ItemStatiusData
 Q_DECLARE_METATYPE(ItemStatiusData)
 
 typedef enum{
-    S_RED,
-    S_BLUE,
-    S_YELLOW,
+    rice,
+    noodle,
+    soup,
+    snack,
+    drink,
+    fire,
 } ItemStatus;
 
 typedef enum{

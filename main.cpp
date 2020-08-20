@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
     QObject::connect(&p,SIGNAL(orderShow()),&o,SLOT(orderShow()));
 
     o.setpys(&p);
+    o.setmanage(&m);
 
     w.show();
 

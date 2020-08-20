@@ -203,26 +203,26 @@ QString Manage::gettypename()   //获取当前选项栏对应的菜品类别名�
     int index = ui->DishsSelect->currentIndex();
     switch(index)
     {
-        case 0: return QString("type_rice"); break;
-        case 1: return QString("type_noodle"); break;
-        case 2: return QString("type_soup"); break;
-        case 3: return QString("type_snack"); break;
-        case 4: return QString("type_drink"); break;
-        case 5: return QString("type_fire"); break;
+        case 0: return QString("rice"); break;
+        case 1: return QString("noodle"); break;
+        case 2: return QString("soup"); break;
+        case 3: return QString("snack"); break;
+        case 4: return QString("drink"); break;
+        case 5: return QString("fire"); break;
     }
 }
 
 int Manage::gettypenum(QString & q) //获取字符串对应的序号
 {
-    if(q == "type_rice")
+    if(q == "rice")
         return 0;
-    else if(q == "type_noodle")
+    else if(q == "noodle")
         return 1;
-    else if(q == "type_soup")
+    else if(q == "soup")
         return 2;
-    else if(q == "type_snack")
+    else if(q == "snack")
         return 3;
-    else if(q == "type_drink")
+    else if(q == "drink")
         return 4;
     else
         return 5;

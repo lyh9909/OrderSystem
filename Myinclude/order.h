@@ -1,4 +1,4 @@
-#ifndef ORDER_H
+﻿#ifndef ORDER_H
 #define ORDER_H
 
 #include <QWidget>
@@ -6,6 +6,7 @@
 #include "Myinclude/DrawItem.h"
 #include "Myinclude/sql_connect.h"
 #include "Myinclude/pay.h"
+#include "Form/manage.h"
 #include <QStandardItem>
 #include <QStandardItemModel>
 #include <QModelIndex>
@@ -13,6 +14,8 @@
 #include <QButtonGroup>
 #include <QObjectUserData>
 #include <QSortFilterProxyModel>
+#include <QMenu>
+#include <QAction>
 
 namespace Ui {
 class order;
@@ -26,6 +29,7 @@ public:
     explicit order(QWidget *parent = nullptr);
     ~order();
     void setpys(pay * p);
+    void setmanage(Manage * m);
 
 //private:
 //    Ui::order *ui;
@@ -41,10 +45,13 @@ private slots:
     void search();
 
     void itemClicked(QModelIndex modelIndex);
-    void on_redBtn_clicked();
     void on_allBtn_clicked();
-    void on_blueBtn_clicked();
-    void on_yellowBtn_clicked();
+    void on_riceBtn_clicked();
+    void on_noodleBtn_clicked();
+    void on_soupBtn_clicked();
+    void on_snackBtn_clicked();
+    void on_drinkBtn_clicked();
+    void on_fireBtn_clicked();
 
     //void on_setRedBtn_clicked();
     void on_verifyBtn_clicked();
@@ -60,12 +67,19 @@ private:
     QSortFilterProxyModel* m_proxyModel;
     QSortFilterProxyModel* m_selectModel;
     QStandardItemModel *m_model;
+    QMenu *m_menu;
+    QAction *m_userCenter,*m_quit;
+
     pay * pys;
+    Manage * manag;
 
     int totalNum;
-    int redNum;
-    int blueNum;
-    int yellowNum;
+    int riceNum;
+    int noodleNum;
+    int soupNum;
+    int snackNum;
+    int drinkNum;
+    int fireNum;
     int selectNum;
     double totalPrice;
 

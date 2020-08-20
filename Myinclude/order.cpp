@@ -1,10 +1,11 @@
-#include "order.h"
+﻿#include "order.h"
 #include "ui_order.h"
 
 #include <QBrush>
 #include <QRadialGradient>
 #include <QDebug>
 
+#pragma execution_character_set("utf-8")  //解决中文乱码问题
 
 order::order(QWidget *parent) :
     QWidget(parent),
@@ -39,7 +40,6 @@ order::order(QWidget *parent) :
     initData();
     updateButtonNum();
 
-    ui->searchBtn->setCursor(Qt::PointingHandCursor);
 
     m_delegate = new ItemDelegate(this);
     m_filterButtonGroup = new QButtonGroup(this);
@@ -48,9 +48,13 @@ order::order(QWidget *parent) :
     m_filterButtonGroup->setExclusive(true);
 
     m_filterButtonGroup->addButton(ui->allBtn);
-    m_filterButtonGroup->addButton(ui->redBtn);
-    m_filterButtonGroup->addButton(ui->blueBtn);
-    m_filterButtonGroup->addButton(ui->yellowBtn);
+    m_filterButtonGroup->addButton(ui->riceBtn);
+    m_filterButtonGroup->addButton(ui->noodleBtn);
+    m_filterButtonGroup->addButton(ui->soupBtn);
+    m_filterButtonGroup->addButton(ui->snackBtn);
+    m_filterButtonGroup->addButton(ui->drinkBtn);
+    m_filterButtonGroup->addButton(ui->fireBtn);
+    m_filterButtonGroup->addButton(ui->orderBtn);
 
     // 连接信号槽
 //    connect(m_filterButtonGroup, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(onButtonClicked(QAbstractButton*)));
@@ -69,6 +73,16 @@ order::order(QWidget *parent) :
     ui->listView->setViewMode(QListView::IconMode); //设置Item图标显示
     ui->listView->setDragEnabled(false);            //控件不允许拖动
 
+    m_menu = new QMenu(ui->userBtn);
+    m_userCenter = new QAction(m_menu);
+    m_quit = new QAction(m_menu);
+    m_userCenter->setText(QObject::tr("个人中心"));
+    m_quit->setText(QObject::tr("退出系统"));
+    m_menu->addAction(m_userCenter);
+    m_menu->addAction(m_quit);
+    ui->userBtn->setMenu(m_menu);
+
+
     ui->spinNum->setRange(0,50);
 
 
@@ -82,10 +96,12 @@ order::~order()
 
 void order::initData()
 { // 数据初始化
-    totalNum = 50;
-    redNum = 0;
-    blueNum = 0;
-    yellowNum = 0;
+    riceNum = 0;
+    noodleNum = 0;
+    soupNum = 0;
+    snackNum = 0;
+    drinkNum = 0;
+    fireNum = 0;
     selectNum = 0;
     totalPrice = 0;
 
@@ -93,6 +109,7 @@ void order::initData()
     ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");
     UseODBCDataBase * uodbc = new UseODBCDataBase(db.GetSqlDatabase());
     QVector<QVector<QString> > res = uodbc->ExecGetAllData("Dishs", 5);
+    totalNum = res.size();
     for (int i = 0; i < res.size(); ++i) {
         QStandardItem *Item = new QStandardItem;
 
@@ -100,25 +117,34 @@ void order::initData()
 
         itemData.name = res[i][2];
         itemData.price = res[i][3].toDouble();
-        itemData.num = res[i][4].toInt();
+        itemData.num = 0;
 
-        int randNum = rand()% 3;
         ItemStatus itemStatus;
 
-        switch (randNum) {
+        switch (manag->gettypenum(res[i][0])) {
         case 0:
-            itemStatus = S_RED;
-            redNum++;
+            itemStatus = rice;
+            riceNum++;
             break;
         case 1:
-            itemStatus = S_BLUE;
-            blueNum++;
+            itemStatus = noodle;
+            noodleNum++;
             break;
         case 2:
-            itemStatus = S_YELLOW;
-            yellowNum++;
+            itemStatus = soup;
+            soupNum++;
             break;
-        default:
+        case 3:
+            itemStatus = snack;
+            snackNum++;
+            break;
+        case 4:
+            itemStatus = drink;
+            drinkNum++;
+            break;
+        case 5:
+            itemStatus = fire;
+            fireNum++;
             break;
         }
 
@@ -141,10 +167,13 @@ void order::initData()
 
 void order::updateButtonNum()
 {
-    ui->allBtn->setText(tr("All %1").arg(totalNum));
-    ui->redBtn->setText(tr("Rice %1").arg(redNum));
-    ui->blueBtn->setText(tr("Noodle %1").arg(blueNum));
-    ui->yellowBtn->setText(tr("FireDish %1").arg(yellowNum));
+    ui->allBtn->setText(tr("All%1").arg(totalNum));
+    ui->riceBtn->setText(tr("米饭%1").arg(riceNum));
+    ui->noodleBtn->setText(tr("面条%1").arg(noodleNum));
+    ui->soupBtn->setText(tr("汤%1").arg(soupNum));
+    ui->snackBtn->setText(tr("零食%1").arg(snackNum));
+    ui->drinkBtn->setText(tr("饮品%1").arg(drinkNum));
+    ui->fireBtn->setText(tr("炒菜%1").arg(fireNum));
     ui->orderBtn->setText(tr("已点 %1").arg(selectNum));
     ui->checkBtn->setText(tr("确认订单 ¥:%1").arg(totalPrice));
 }
@@ -218,70 +247,66 @@ void order::on_allBtn_clicked()
     }
 }
 
-void order::on_redBtn_clicked()
-{// 点击redBtn
+void order::on_riceBtn_clicked()
+{// 点击riceBtn
 
     m_proxyModel->setFilterRole(Qt::UserRole);
     if(m_proxyModel)
     {
-        m_proxyModel->setFilterFixedString(QString::number(S_RED));
+        m_proxyModel->setFilterFixedString(QString::number(rice));
     }
 }
 
-void order::on_blueBtn_clicked()
-{// 点击blueBtn
+void order::on_noodleBtn_clicked()
+{// 点击noodleBtn
 
     m_proxyModel->setFilterRole(Qt::UserRole);
     if(m_proxyModel)
     {
-        m_proxyModel->setFilterFixedString(QString::number(S_BLUE));
+        m_proxyModel->setFilterFixedString(QString::number(noodle));
     }
 }
 
-void order::on_yellowBtn_clicked()
-{// 点击yellowBtn
+void order::on_soupBtn_clicked()
+{// 点击soupBtn
 
     m_proxyModel->setFilterRole(Qt::UserRole);
     if(m_proxyModel)
     {
-        m_proxyModel->setFilterFixedString(QString::number(S_YELLOW));
+        m_proxyModel->setFilterFixedString(QString::number(soup));
     }
 }
 
 
-//void order::on_setRedBtn_clicked()
-//{
-//    QModelIndexList modelIndexList = ui->listView->selectionModel()->selectedIndexes();
-//    QModelIndexList sourceIndexList;
-//    for (QModelIndex modelIndex : modelIndexList){
-//        sourceIndexList<<m_proxyModel->mapToSource(modelIndex); //获取源model的modelIndex
-//    }
+void order::on_snackBtn_clicked()
+{// 点击snackBtn
 
-////    g_proxyModel->setDynamicSortFilter(false);
-//    for (QModelIndex sourceIndex : sourceIndexList){
-//        ItemStatus status = (ItemStatus)(sourceIndex.data(Qt::UserRole).toInt());  //获取单一数据
-//        qDebug() << "Index : " << sourceIndex.row();
+    m_proxyModel->setFilterRole(Qt::UserRole);
+    if(m_proxyModel)
+    {
+        m_proxyModel->setFilterFixedString(QString::number(snack));
+    }
+}
 
-//        switch (status) {
-//            case S_RED:
-//                redNum--;
-//                break;
-//            case S_BLUE:
-//                blueNum--;
-//                break;
-//            case S_YELLOW:
-//                yellowNum--;
-//                break;
-//        }
+void order::on_drinkBtn_clicked()
+{// 点击drinkBtn
 
-//        status = S_RED;
-//        redNum++;
+    m_proxyModel->setFilterRole(Qt::UserRole);
+    if(m_proxyModel)
+    {
+        m_proxyModel->setFilterFixedString(QString::number(drink));
+    }
+}
 
-//        m_model->setData(sourceIndex,status,Qt::UserRole);
-//    }
-////    g_proxyModel->setDynamicSortFilter(true);
-//    updateButtonNum();
-//}
+void order::on_fireBtn_clicked()
+{// 点击fireBtn
+
+    m_proxyModel->setFilterRole(Qt::UserRole);
+    if(m_proxyModel)
+    {
+        m_proxyModel->setFilterFixedString(QString::number(fire));
+    }
+}
 
 void order::on_verifyBtn_clicked()
 {
@@ -343,4 +368,9 @@ void order::orderShow()
 void order::setpys(pay * p)
 {
     pys = p;
+}
+
+void order::setmanage(Manage *m)
+{
+    manag = m;
 }

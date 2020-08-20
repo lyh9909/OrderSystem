@@ -11,5 +11,6 @@
         <file>Picture/unionpay.jpg</file>
         <file>Picture/wechatpay.png</file>
         <file>Picture/Test.png</file>
+        <file>Picture/user.png</file>
     </qresource>
 </RCC>

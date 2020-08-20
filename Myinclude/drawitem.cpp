@@ -394,22 +394,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 //        QRect imageSource = QRect(0,0,30,30);
 //        QImage image1(":/new/Pic_/Picture/alipay.png");
 
-        switch (status) {
-        case S_RED:
-            painter->setBrush(Qt::red);
-            painter->setPen(QPen(Qt::red));
-            break;
-        case S_BLUE:
-            painter->setBrush(Qt::blue);
-            painter->setPen(QPen(Qt::blue));
-            break;
-        case S_YELLOW:
-            painter->setBrush(Qt::yellow);
-            painter->setPen(QPen(Qt::yellow));
-            break;
-        }
-
-        painter->drawEllipse(circle);     //画圆圈
 
         painter->setPen(QPen(Qt::black));
         painter->setFont(QFont("Times", 12, QFont::Bold));
