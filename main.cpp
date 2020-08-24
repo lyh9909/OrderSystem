@@ -1,4 +1,4 @@
-#include "widget.h"
+﻿#include "widget.h"
 #include "login.h"
 #include "Form/manage.h"
 #include "Form/login_manage.h"
@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     QObject::connect(&l_m,SIGNAL(manageShow()),&m,SLOT(manageShow()));
     QObject::connect(&o,SIGNAL(payShow()),&p,SLOT(payShow()));
     QObject::connect(&p,SIGNAL(orderShow()),&o,SLOT(orderShow()));
+    QObject::connect(&o,SIGNAL(quit()),&l,SLOT(loginShow()));
 
     o.setpys(&p);
     o.setmanage(&m);

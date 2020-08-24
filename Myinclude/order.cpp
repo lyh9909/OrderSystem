@@ -69,6 +69,7 @@ order::order(QWidget *parent) :
     m_proxyModel->setFilterRole(Qt::UserRole);
     m_proxyModel->setDynamicSortFilter(true);
 
+
     ui->listView->setModel(m_proxyModel);                  //为委托设置模型
     ui->listView->setViewMode(QListView::IconMode); //设置Item图标显示
     ui->listView->setDragEnabled(false);            //控件不允许拖动
@@ -81,6 +82,8 @@ order::order(QWidget *parent) :
     m_menu->addAction(m_userCenter);
     m_menu->addAction(m_quit);
     ui->userBtn->setMenu(m_menu);
+    connect(m_userCenter, &QAction::triggered, this,&order::userCenter_selected);
+    connect(m_quit, &QAction::triggered, this,&order::quit_selected);
 
 
     ui->spinNum->setRange(0,50);
@@ -104,6 +107,9 @@ void order::initData()
     fireNum = 0;
     selectNum = 0;
     totalPrice = 0;
+
+    ui->clearBtn->hide();
+    ui->clearLabel->hide();
 
     m_model = new QStandardItemModel();
     ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");
@@ -343,14 +349,26 @@ void order::on_verifyBtn_clicked()
     updateButtonNum();
 }
 
-void order::on_orderBtn_clicked()
-{// 点击orderBtn
 
-    m_proxyModel->setFilterRole(Qt::UserRole+1);
-    if(m_proxyModel)
+void order::on_orderBtn_toggled(bool checked)
+{
+    if(checked == true)
     {
-        m_proxyModel->setFilterFixedString(QString::number(Select));
+        ui->clearBtn->show();
+        ui->clearLabel->show();
+        m_proxyModel->setFilterRole(Qt::UserRole+1);
+        if(m_proxyModel)
+        {
+            m_proxyModel->setFilterFixedString(QString::number(Select));
+        }
     }
+    else
+    {
+        ui->clearBtn->hide();
+        ui->clearLabel->hide();
+
+    }
+
 }
 
 void order::on_checkBtn_clicked()
@@ -360,9 +378,53 @@ void order::on_checkBtn_clicked()
     emit payShow();
 }
 
+
+void order::on_clearBtn_clicked()
+{
+    ui->listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    ui->listView->selectAll();
+
+    QModelIndexList modelIndexList = ui->listView->selectionModel()->selectedIndexes();
+    QModelIndexList sourceIndexList;
+    for (QModelIndex modelIndex : modelIndexList){
+        sourceIndexList<<m_proxyModel->mapToSource(modelIndex); //获取源model的modelIndex
+    }
+
+    for (QModelIndex sourceIndex : sourceIndexList){
+
+        ItemSelect selectStatus = (ItemSelect)(sourceIndex.data(Qt::UserRole+1).toInt());
+
+        QVariant variant = sourceIndex.data(Qt::UserRole+2);
+        ItemiData data = variant.value<ItemiData>();
+
+        data.num = 0;
+        selectStatus = None;
+        ui->spinNum->setValue(0);
+
+        m_model->setData(sourceIndex,selectStatus,Qt::UserRole+1);
+        m_model->setData(sourceIndex,QVariant::fromValue(data),Qt::UserRole+2);
+    }
+    selectNum = 0;
+    totalPrice = 0;
+    updateButtonNum();
+    ui->listView->setSelectionMode(QAbstractItemView::SingleSelection);
+}
+
+
 void order::orderShow()
 {
     this->show();
+}
+
+void order::userCenter_selected()
+{
+    qDebug() << "center ";
+}
+
+void order::quit_selected()
+{
+    this->close();
+    emit quit();
 }
 
 void order::setpys(pay * p)
@@ -374,3 +436,5 @@ void order::setmanage(Manage *m)
 {
     manag = m;
 }
+
+

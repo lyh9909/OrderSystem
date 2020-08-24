@@ -1,4 +1,4 @@
-#include "login.h"
+﻿#include "login.h"
 #include "ui_login.h"
 
 login::login(QWidget *parent)
@@ -45,4 +45,5 @@ void login::on_Button_SignUp_clicked()
 void login::loginShow()
 {
     this->show();
+    ui->Input_Password->setText(QString(""));
 }

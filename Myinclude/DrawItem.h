@@ -1,11 +1,10 @@
-#ifndef DRAWITEM_H
+﻿#ifndef DRAWITEM_H
 #define DRAWITEM_H
 
 #include <QStyledItemDelegate>
 #include <QModelIndex>
 #include <QStandardItemModel>
 #include <QPainter>
-#include <QStyledItemDelegate>
 #include <QStyle>
 #include <QEvent>
 #include <QDebug>

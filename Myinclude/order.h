@@ -55,10 +55,15 @@ private slots:
 
     //void on_setRedBtn_clicked();
     void on_verifyBtn_clicked();
-    void on_orderBtn_clicked();
-    void on_checkBtn_clicked();
+    void on_orderBtn_toggled(bool checked);
+    void on_checkBtn_clicked();  
+    void on_clearBtn_clicked();
 
     void orderShow();
+
+    void userCenter_selected();
+    void quit_selected();
+
 
 private:
     Ui::order *ui;
@@ -88,6 +93,7 @@ private:
 
 signals:
     void payShow();
+    void quit();
 
 };
 

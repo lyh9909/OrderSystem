@@ -12,5 +12,6 @@
         <file>Picture/wechatpay.png</file>
         <file>Picture/Test.png</file>
         <file>Picture/user.png</file>
+        <file>Picture/trash.png</file>
     </qresource>
 </RCC>
