@@ -77,7 +77,7 @@ order::order(QWidget *parent) :
     m_menu = new QMenu(ui->userBtn);
     m_userCenter = new QAction(m_menu);
     m_quit = new QAction(m_menu);
-    m_userCenter->setText(QObject::tr("个人中心"));
+    m_userCenter->setText(QObject::tr("我的订单"));
     m_quit->setText(QObject::tr("退出系统"));
     m_menu->addAction(m_userCenter);
     m_menu->addAction(m_quit);
@@ -416,9 +416,22 @@ void order::orderShow()
     this->show();
 }
 
+void order::orderFresh()
+{
+    this->show();
+    on_clearBtn_clicked();
+}
+
+void order::userName(QString str)
+{
+    ui->UserName->setText(str);
+}
+
 void order::userCenter_selected()
 {
-    qDebug() << "center ";
+    this->hide();
+    emit ucShow();
+
 }
 
 void order::quit_selected()
@@ -436,5 +449,6 @@ void order::setmanage(Manage *m)
 {
     manag = m;
 }
+
 
 

@@ -1,4 +1,4 @@
-#include "pay.h"
+﻿#include "pay.h"
 #include "ui_pay.h"
 
 pay::pay(QWidget *parent) :
@@ -21,16 +21,26 @@ void pay::settotal(double price)
 
 void pay::on_payBtn_clicked()
 {
-    QByteArray data;
+    emit ucShow();
+    this->hide();
+//    ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");    //连接数据库
+//    if(db.OpenDataBase())
+//    {
+//        uodbc = new UseODBCDataBase(db.GetSqlDatabase());
+//    }
+//    QVector<QString> temp;
+//    uodbc->ExecInsertData("orders", temp);       //插入新数据
+
+//    QByteArray data;
 //    QString filename = QFileDialog::getOpenFileName(
 //                    this,
 //                    "Open Document",
 //                    QDir::currentPath(),
 //                    "Document files (*.jpg *.png);;All files(*.*)"
 //                );
-    QDialog * dlg = new QDialog(this);  //创建对话框
-    QFormLayout form(dlg);      //创建窗体
-    QLabel * lab = new QLabel(dlg);     //创建label 用于存放图片
+//    QDialog * dlg = new QDialog(this);  //创建对话框
+//    QFormLayout form(dlg);      //创建窗体
+//    QLabel * lab = new QLabel(dlg);     //创建label 用于存放图片
 //    QImage * img = new QImage;      //用于读取图片
 //    if (!filename.isEmpty())
 //    {
@@ -41,26 +51,26 @@ void pay::on_payBtn_clicked()
 //        data = file->readAll();
 //        file->close();
 //    }
-    ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");
 
-    if(db.OpenDataBase())
-    {
-        QSqlQuery query;
-        query.exec("SELECT * FROM photo");
-        QPixmap photo;
-        query.first();
-        photo.loadFromData(query.value(1).toByteArray(), "jpg");
-        lab->setPixmap(photo);
-    }
+
+//    if(db.OpenDataBase())
+//    {
+//        QSqlQuery query;
+//        query.exec("SELECT * FROM photo");
+//        QPixmap photo;
+//        query.first();
+//        photo.loadFromData(query.value(1).toByteArray(), "jpg");
+//        lab->setPixmap(photo);
+//    }
 
 //    img->load(":/new/Pic_/Picture/Test.png");   //加载图片
 //    lab->setPixmap(QPixmap::fromImage(*img));   //设置图片
 //    lab->show();    //显示图片
-    form.addRow(lab);
-    if(dlg->exec() == QDialog::Accepted)    //弹出对话框
-    {
+//    form.addRow(lab);
+//    if(dlg->exec() == QDialog::Accepted)    //弹出对话框
+//    {
 
-    }
+//    }
 }
 
 void pay::on_cancelBtn_clicked()

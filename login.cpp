@@ -1,6 +1,7 @@
 ﻿#include "login.h"
 #include "ui_login.h"
 
+
 login::login(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::login)
@@ -21,6 +22,7 @@ void login::on_Button_SignIn_clicked()
     if(chs->IsTheSame(ui->Input_User->text(), ui->Input_Password->text(), "0"))     //检查用户名密码权限是否正确
     {
         emit orderShow();
+        oo->userName(ui->Input_User->text());
         this->hide();
     }
     else
@@ -46,4 +48,9 @@ void login::loginShow()
 {
     this->show();
     ui->Input_Password->setText(QString(""));
+}
+
+void login::setOrder(order *o)
+{
+    oo = o;
 }

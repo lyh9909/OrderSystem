@@ -30,6 +30,7 @@ public:
     ~order();
     void setpys(pay * p);
     void setmanage(Manage * m);
+    void userName(QString str);
 
 //private:
 //    Ui::order *ui;
@@ -60,9 +61,10 @@ private slots:
     void on_clearBtn_clicked();
 
     void orderShow();
-
+    void orderFresh();
     void userCenter_selected();
     void quit_selected();
+
 
 
 private:
@@ -94,6 +96,7 @@ private:
 signals:
     void payShow();
     void quit();
+    void ucShow();
 
 };
 

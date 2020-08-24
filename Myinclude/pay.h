@@ -1,4 +1,4 @@
-#ifndef PAY_H
+﻿#ifndef PAY_H
 #define PAY_H
 
 #include <QDialog>
@@ -31,12 +31,14 @@ private slots:
 
 private:
     Ui::pay *ui;
+    UseODBCDataBase * uodbc;    //执行数据库操作
 
 protected:
 
 
 signals:
     void orderShow();
+    void ucShow();
 };
 
 #endif // PAY_H

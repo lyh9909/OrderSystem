@@ -25,6 +25,7 @@ SOURCES += \
     Myinclude/pay.cpp\
     login.cpp \
     main.cpp \
+    user_center.cpp \
     widget.cpp
 
 HEADERS += \
@@ -36,6 +37,7 @@ HEADERS += \
     Myinclude/order.h\
     Myinclude/pay.h\
     login.h \
+    user_center.h \
     widget.h
 
 FORMS += \
@@ -44,6 +46,7 @@ FORMS += \
     Form/order.ui\
     Form/pay.ui\
     login.ui \
+    user_center.ui \
     widget.ui
 
 TRANSLATIONS += \

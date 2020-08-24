@@ -1,8 +1,9 @@
-#ifndef LOGIN_H
+﻿#ifndef LOGIN_H
 #define LOGIN_H
 
 #include <QWidget>
 #include "Myinclude/login_w.h"
+#include "Myinclude/order.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class login; }
@@ -15,6 +16,7 @@ class login : public QWidget
 public:
     login(QWidget *parent = nullptr);
     ~login();
+    void setOrder(order *o);
 
 private slots:
     void on_Button_SignIn_clicked();
@@ -29,6 +31,7 @@ signals:
 
 private:
     Ui::login *ui;
+    order *oo;
 
 };
 #endif // LOGIN_H
