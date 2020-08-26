@@ -7,6 +7,7 @@ login::login(QWidget *parent)
     , ui(new Ui::login)
 {
     ui->setupUi(this);
+    connect(this, SIGNAL(orderShow()), this, SLOT(judgeVip()));
 }
 
 login::~login()
@@ -20,10 +21,9 @@ void login::on_Button_SignIn_clicked()
     CheckUser * chs = new CheckUser();
     chs->CreatConnect();        //创建连接
     if(chs->IsTheSame(ui->Input_User->text(), ui->Input_Password->text(), "0"))     //检查用户名密码权限是否正确
-    {
-        emit orderShow();
-        oo->userName(ui->Input_User->text());
+    {    
         this->hide();
+        emit orderShow();
     }
     else
         QMessageBox::warning(0, "Sorry", "Username or Password is Wrong, or Power isn't Match");
@@ -42,6 +42,13 @@ void login::on_Button_SignUp_clicked()
     {
         QMessageBox::warning(0, "Error", "Sign Up Error");
     }
+}
+
+void login::judgeVip()
+{
+    CheckUser * chs = new CheckUser();
+    chs->CreatConnect();        //创建连接
+    oo->user(ui->Input_User->text(),chs->IsVip(ui->Input_User->text(), "1"));
 }
 
 void login::loginShow()

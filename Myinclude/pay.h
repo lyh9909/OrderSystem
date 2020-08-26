@@ -37,7 +37,6 @@ protected:
 
 
 signals:
-    void orderShow();
     void ucShow();
 };
 

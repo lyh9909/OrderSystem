@@ -5,6 +5,7 @@
 
 #include "Myinclude/DrawItem.h"
 #include "Myinclude/sql_connect.h"
+#include "user_center.h"
 #include "Myinclude/pay.h"
 #include "Form/manage.h"
 #include <QStandardItem>
@@ -28,9 +29,10 @@ class order : public QWidget
 public:
     explicit order(QWidget *parent = nullptr);
     ~order();
+    void setuc(user_center * u);
     void setpys(pay * p);
     void setmanage(Manage * m);
-    void userName(QString str);
+    void user(QString str,bool vip);
 
 //private:
 //    Ui::order *ui;
@@ -72,11 +74,11 @@ private:
     QButtonGroup *m_filterButtonGroup;
     ItemDelegate *m_delegate;                 //委托
     QSortFilterProxyModel* m_proxyModel;
-    QSortFilterProxyModel* m_selectModel;
     QStandardItemModel *m_model;
     QMenu *m_menu;
     QAction *m_userCenter,*m_quit;
 
+    user_center *uc;
     pay * pys;
     Manage * manag;
 
@@ -89,6 +91,8 @@ private:
     int fireNum;
     int selectNum;
     double totalPrice;
+    bool vipFlag;
+    double discountPrice;
 
     void initData();
     void updateButtonNum();
@@ -97,6 +101,7 @@ signals:
     void payShow();
     void quit();
     void ucShow();
+    void ucOrder();
 
 };
 

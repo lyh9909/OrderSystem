@@ -13,8 +13,9 @@
         <file>Picture/Test.png</file>
         <file>Picture/user.png</file>
         <file>Picture/trash.png</file>
-        <file>Picture/quit.png</file>
         <file>Picture/user_center.png</file>
         <file>Picture/notification.png</file>
+        <file>Picture/return.png</file>
+        <file>Picture/quit.png</file>
     </qresource>
 </RCC>

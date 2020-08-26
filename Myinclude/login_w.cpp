@@ -1,4 +1,4 @@
-#include "login_w.h"
+﻿#include "login_w.h"
 
 void CheckUser::CreatConnect()
 {
@@ -11,10 +11,24 @@ void CheckUser::CreatConnect()
 
 bool CheckUser::IsTheSame(const QString & username, const QString & password, const QString & power)
 {
-    QVector<QString> res = udb->ExecFindData("Accounts", "Username", username, 3);
+    QVector<QString> res = udb->ExecFindData("Accounts", "Username", username, 4);
     if(res.size())  //如果用户存在， 判断密码和权限是否正确
     {
         if(res[0] == password && res[1] == power)
+            return true;
+        else
+            return false;
+    }
+    else
+        return false;
+}
+
+bool CheckUser::IsVip(const QString &username,const QString & vip)
+{
+    QVector<QString> res = udb->ExecFindData("Accounts", "Username",username, 4);
+    if(res.size())  //判断用户是否为会员
+    {
+        if(res[2] == vip)
             return true;
         else
             return false;

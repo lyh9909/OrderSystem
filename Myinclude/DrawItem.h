@@ -130,6 +130,7 @@ struct ItemiData{
     QString name;
     double price;
     int num;
+    QPixmap img;
 };
 
 Q_DECLARE_METATYPE(ItemiData)

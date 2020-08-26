@@ -7,6 +7,8 @@
 
 #pragma execution_character_set("utf-8")  //解决中文乱码问题
 
+#define DISCOUNT 0.12
+
 order::order(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::order)
@@ -107,6 +109,7 @@ void order::initData()
     fireNum = 0;
     selectNum = 0;
     totalPrice = 0;
+    discountPrice = 0;
 
     ui->clearBtn->hide();
     ui->clearLabel->hide();
@@ -121,9 +124,10 @@ void order::initData()
 
         ItemiData itemData;
 
-        itemData.name = res[i][2];
+        itemData.name = res[i][1];
         itemData.price = res[i][3].toDouble();
         itemData.num = 0;
+        //itemData.img = res[i]
 
         ItemStatus itemStatus;
 
@@ -173,6 +177,19 @@ void order::initData()
 
 void order::updateButtonNum()
 {
+    double virtualPrice = totalPrice;
+    if(vipFlag == true && totalPrice != 0.0)
+    {
+        discountPrice = DISCOUNT * totalPrice;
+        virtualPrice -= discountPrice;
+        ui->discountPay->setText(tr("VIP优惠  -￥%1").arg(QString::number(discountPrice,'f',2)));
+        ui->discountPay->show();
+    }
+    else
+    {
+        discountPrice = 0;
+        ui->discountPay->hide();
+    }
     ui->allBtn->setText(tr("All%1").arg(totalNum));
     ui->riceBtn->setText(tr("米饭%1").arg(riceNum));
     ui->noodleBtn->setText(tr("面条%1").arg(noodleNum));
@@ -181,7 +198,8 @@ void order::updateButtonNum()
     ui->drinkBtn->setText(tr("饮品%1").arg(drinkNum));
     ui->fireBtn->setText(tr("炒菜%1").arg(fireNum));
     ui->orderBtn->setText(tr("已点 %1").arg(selectNum));
-    ui->checkBtn->setText(tr("确认订单 ¥:%1").arg(totalPrice));
+    ui->checkBtn->setText(tr("确认订单 ¥:%1").arg(QString::number(virtualPrice,'f',2)));
+
 }
 
 //void order::onButtonClicked(QAbstractButton *button)
@@ -230,7 +248,7 @@ void order::itemClicked(QModelIndex modelIndex)
                 selectNum++;
                 ui->spinNum->setValue(1);
                 data.num = ui->spinNum->value();
-                totalPrice += data.price * data.num;
+                totalPrice += data.price * data.num;               
                 break;
 
         }
@@ -375,7 +393,8 @@ void order::on_checkBtn_clicked()
 {// 点击checkBtn
     this->close();
     pys->settotal(totalPrice);
-    emit payShow();
+    uc->settotal(totalPrice);
+    emit ucShow();
 }
 
 
@@ -406,6 +425,7 @@ void order::on_clearBtn_clicked()
     }
     selectNum = 0;
     totalPrice = 0;
+    discountPrice = 0;
     updateButtonNum();
     ui->listView->setSelectionMode(QAbstractItemView::SingleSelection);
 }
@@ -422,15 +442,23 @@ void order::orderFresh()
     on_clearBtn_clicked();
 }
 
-void order::userName(QString str)
+void order::user(QString str,bool vip)
 {
-    ui->UserName->setText(str);
+    vipFlag = vip;
+    if(vip == true)
+    {
+        ui->UserName->setText(str + "  VIP");
+    }
+    else
+    {
+        ui->UserName->setText(str);
+    }
 }
 
 void order::userCenter_selected()
 {
     this->hide();
-    emit ucShow();
+    emit ucOrder();
 
 }
 
@@ -438,6 +466,11 @@ void order::quit_selected()
 {
     this->close();
     emit quit();
+}
+
+void order::setuc(user_center *u)
+{
+    uc = u;
 }
 
 void order::setpys(pay * p)

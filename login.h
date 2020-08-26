@@ -23,6 +23,8 @@ private slots:
 
     void on_Button_SignUp_clicked();
 
+    void judgeVip();
+
     void loginShow();
 
 signals:

@@ -21,8 +21,7 @@ void pay::settotal(double price)
 
 void pay::on_payBtn_clicked()
 {
-    emit ucShow();
-    this->hide();
+
 //    ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");    //连接数据库
 //    if(db.OpenDataBase())
 //    {
@@ -38,10 +37,10 @@ void pay::on_payBtn_clicked()
 //                    QDir::currentPath(),
 //                    "Document files (*.jpg *.png);;All files(*.*)"
 //                );
-//    QDialog * dlg = new QDialog(this);  //创建对话框
-//    QFormLayout form(dlg);      //创建窗体
-//    QLabel * lab = new QLabel(dlg);     //创建label 用于存放图片
-//    QImage * img = new QImage;      //用于读取图片
+    QDialog * dlg = new QDialog(this);  //创建对话框
+    QFormLayout form(dlg);      //创建窗体
+    QLabel * lab = new QLabel(dlg);     //创建label 用于存放图片
+    QImage * img = new QImage;      //用于读取图片
 //    if (!filename.isEmpty())
 //    {
 //        QPixmap *pixmap=new QPixmap(filename);
@@ -63,9 +62,9 @@ void pay::on_payBtn_clicked()
 //        lab->setPixmap(photo);
 //    }
 
-//    img->load(":/new/Pic_/Picture/Test.png");   //加载图片
-//    lab->setPixmap(QPixmap::fromImage(*img));   //设置图片
-//    lab->show();    //显示图片
+    img->load(":/new/Pic_/Picture/Test.png");   //加载图片
+    lab->setPixmap(QPixmap::fromImage(*img));   //设置图片
+    lab->show();    //显示图片
 //    form.addRow(lab);
 //    if(dlg->exec() == QDialog::Accepted)    //弹出对话框
 //    {
@@ -75,7 +74,7 @@ void pay::on_payBtn_clicked()
 
 void pay::on_cancelBtn_clicked()
 {
-    emit orderShow();
+    emit ucShow();
     this->close();
 }
 

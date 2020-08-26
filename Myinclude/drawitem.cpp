@@ -1,4 +1,4 @@
-#include "drawitem.h"
+﻿#include "drawitem.h"
 
 ItemStyleDesigner::ItemStyleDesigner(QObject *parent) : QStyledItemDelegate(parent)
 {
@@ -386,13 +386,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
         //绘制数据位置
         QRect nameRect = QRect(rect.left() +10, rect.top(), 100, 30);
-        QRect circle = QRect(rect.right() -10, rect.top()+5, 5, 5);
+//        QRect circle = QRect(rect.right() -10, rect.top()+5, 5, 5);
         QRect priceRect = QRect(nameRect.right() +50, rect.top()+10, 50, 20);
         QRect numRect = QRect(nameRect.right() +50, rect.bottom()-30, 100, 30);
-//        QRect imageRect = QRect(rect.left() +10,nameRect.bottom()+10,100,50);
+        QRect imgRect = QRect(rect.left() +10,nameRect.bottom()+10,100,50);
 
-//        QRect imageSource = QRect(0,0,30,30);
-//        QImage image1(":/new/Pic_/Picture/alipay.png");
+        QRect imgSource = QRect(0,0,30,30);
 
 
         painter->setPen(QPen(Qt::black));
@@ -407,7 +406,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         painter->setFont(QFont("Times", 12, QFont::Bold));
         painter->drawText(numRect,Qt::AlignLeft,QString::number(data.num)); //绘制数量
 
-//        painter->drawImage(imageRect,image1,imageSource);
+        painter->drawPixmap(imgRect,data.img,imgSource);
 
         painter->restore();
 

@@ -28,15 +28,16 @@ int main(int argc, char *argv[])
 
     QObject::connect(&w,SIGNAL(loginShow()),&l,SLOT(loginShow()));
     QObject::connect(&w,SIGNAL(loginManageShow()),&l_m,SLOT(loginManageShow()));
-    QObject::connect(&l,SIGNAL(orderShow()),&o,SLOT(orderShow()));
+    QObject::connect(&l,SIGNAL(orderShow()),&o,SLOT(orderFresh()));
     QObject::connect(&l_m,SIGNAL(manageShow()),&m,SLOT(manageShow()));
-    QObject::connect(&o,SIGNAL(payShow()),&p,SLOT(payShow()));
-    QObject::connect(&p,SIGNAL(orderShow()),&o,SLOT(orderShow()));
     QObject::connect(&o,SIGNAL(quit()),&l,SLOT(loginShow()));
     QObject::connect(&o,SIGNAL(ucShow()),&uc,SLOT(ucShow()));
-    QObject::connect(&uc,SIGNAL(quit()),&o,SLOT(orderFresh()));
+    QObject::connect(&o,SIGNAL(ucOrder()),&uc,SLOT(ucOrder()));
+    QObject::connect(&uc,SIGNAL(ret()),&o,SLOT(orderShow()));
+    QObject::connect(&uc,SIGNAL(payShow()),&p,SLOT(payShow()));
     QObject::connect(&p,SIGNAL(ucShow()),&uc,SLOT(ucShow()));
 
+    o.setuc(&uc);
     o.setpys(&p);
     o.setmanage(&m);
     l.setOrder(&o);

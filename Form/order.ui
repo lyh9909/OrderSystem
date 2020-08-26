@@ -204,7 +204,7 @@ border-radius:10px;
     <rect>
      <x>200</x>
      <y>0</y>
-     <width>500</width>
+     <width>470</width>
      <height>70</height>
     </rect>
    </property>
@@ -229,7 +229,7 @@ font: 12pt &quot;宋体&quot; ;</string>
   <widget class="QPushButton" name="searchBtn">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>670</x>
      <y>0</y>
      <width>100</width>
      <height>70</height>
@@ -276,7 +276,7 @@ border-radius:10px;
 }</string>
    </property>
    <property name="text">
-    <string>去支付</string>
+    <string/>
    </property>
   </widget>
   <widget class="QSpinBox" name="spinNum">
@@ -371,10 +371,10 @@ border-radius:10px;
   <widget class="QLabel" name="discountPay">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>660</y>
-     <width>101</width>
-     <height>31</height>
+     <x>480</x>
+     <y>650</y>
+     <width>200</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
@@ -529,9 +529,9 @@ border-radius:10px;
   <widget class="QLabel" name="UserName">
    <property name="geometry">
     <rect>
-     <x>900</x>
+     <x>880</x>
      <y>20</y>
-     <width>91</width>
+     <width>100</width>
      <height>30</height>
     </rect>
    </property>
@@ -563,7 +563,7 @@ border-radius:10px;
   <widget class="QPushButton" name="userBtn">
    <property name="geometry">
     <rect>
-     <x>840</x>
+     <x>820</x>
      <y>10</y>
      <width>51</width>
      <height>51</height>
