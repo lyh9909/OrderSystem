@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
     QObject::connect(&l_m,SIGNAL(manageShow()),&m,SLOT(manageShow()));
     QObject::connect(&o,SIGNAL(quit()),&l,SLOT(loginShow()));
     QObject::connect(&o,SIGNAL(ucShow()),&uc,SLOT(ucShow()));
-    QObject::connect(&o,SIGNAL(ucOrder()),&uc,SLOT(ucOrder()));
     QObject::connect(&uc,SIGNAL(ret()),&o,SLOT(orderShow()));
     QObject::connect(&uc,SIGNAL(payShow()),&p,SLOT(payShow()));
     QObject::connect(&p,SIGNAL(ucShow()),&uc,SLOT(ucShow()));

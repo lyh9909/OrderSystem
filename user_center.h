@@ -19,7 +19,8 @@ class user_center : public QWidget
 public:
     explicit user_center(QWidget *parent = nullptr);
     ~user_center();
-    void settotal(double price);
+
+    void setAll(QModelIndexList modelIndexList);
 
 signals:
     void ret();
@@ -32,9 +33,9 @@ private:
 
 private slots:
     void ucShow();
-    void ucOrder();
     void on_returnBtn_clicked();
     void on_payBtn_clicked();
+
 };
 
 #endif // USER_CENTER_H

@@ -98,10 +98,8 @@ private:
     void updateButtonNum();
 
 signals:
-    void payShow();
     void quit();
     void ucShow();
-    void ucOrder();
 
 };
 

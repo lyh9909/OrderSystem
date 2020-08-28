@@ -365,9 +365,14 @@ void order::on_orderBtn_toggled(bool checked)
 
 void order::on_checkBtn_clicked()
 {// 点击checkBtn
-    this->close();
+    //this->close();
     pys->settotal(totalPrice - discountPrice);
-    uc->settotal(totalPrice - discountPrice);
+
+    on_orderBtn_toggled(true);
+    ui->listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    ui->listView->selectAll();
+    QModelIndexList modelIndexList = ui->listView->selectionModel()->selectedIndexes();
+    uc->setAll(modelIndexList);
     emit ucShow();
 }
 
@@ -432,7 +437,7 @@ void order::user(QString str,bool vip)
 void order::userCenter_selected()
 {
     this->hide();
-    emit ucOrder();
+    emit ucShow();
 
 }
 

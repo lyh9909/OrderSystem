@@ -101,23 +101,6 @@ border-radius:10px;
     <string>结算</string>
    </property>
   </widget>
-  <widget class="QLabel" name="totalPrice">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>610</y>
-     <width>130</width>
-     <height>34</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">border:none;
-color:rgba(255, 0, 0, 200);</string>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>

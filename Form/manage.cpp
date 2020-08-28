@@ -1,4 +1,4 @@
-#include "manage.h"
+﻿#include "manage.h"
 #include "ui_manage.h"
 
 
