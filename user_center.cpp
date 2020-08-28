@@ -9,7 +9,25 @@ user_center::user_center(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //ui->listView->setModel(m_model);
+    m_model = new QStandardItemModel();
+    QStringList strList;
+    strList.append("");
+    strList.append("");
+    strList.append("");
+
+    int nCount = strList.size();
+
+    for (int i = 0; i < nCount; i++)
+    {
+        QString string = static_cast<QString>(strList.at(i));
+        QStandardItem *item = new QStandardItem(string);
+        m_model->appendRow(item);
+
+    }
+    ui->listView->setModel(m_model);
+    ui->listView->setEditTriggers(QAbstractItemView:: NoEditTriggers);
+        //connect(ui->listView,SIGNAL(clicked(QModelIndex)),this,SLOT(itemClicked(QModelIndex)));
+
 }
 
 user_center::~user_center()
@@ -19,7 +37,7 @@ user_center::~user_center()
 
 void user_center::settotal(double price)
 {
-    ui->totalPrice->setText(tr("合计 ¥:%1").arg(price));
+    ui->totalPrice->setText(tr("合计 ¥:%1").arg(QString::number(price,'f',2)));
 }
 
 void user_center::ucShow()

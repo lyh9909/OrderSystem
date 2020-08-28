@@ -23,6 +23,7 @@ SOURCES += \
     Myinclude/sql_connect.cpp \
     Myinclude/order.cpp\
     Myinclude/pay.cpp\
+    dialog_pic.cpp \
     login.cpp \
     main.cpp \
     user_center.cpp \
@@ -36,6 +37,7 @@ HEADERS += \
     Myinclude/sql_connect.h \
     Myinclude/order.h\
     Myinclude/pay.h\
+    dialog_pic.h \
     login.h \
     user_center.h \
     widget.h
@@ -45,6 +47,7 @@ FORMS += \
     Form/manage.ui \
     Form/order.ui\
     Form/pay.ui\
+    dialog_pic.ui \
     login.ui \
     user_center.ui \
     widget.ui

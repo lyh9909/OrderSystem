@@ -15,7 +15,7 @@ pay::~pay()
 
 void pay::settotal(double price)
 {
-    ui->payPrice->setText(QString::number(price));
+    ui->payPrice->setText(QString::number(price,'f',2));
 }
 
 

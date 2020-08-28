@@ -15,30 +15,6 @@ order::order(QWidget *parent) :
 {
     ui->setupUi(this);
 
-//    listView = new QListView(this);
-//    standardItemModel = new QStandardItemModel(this);
-
-//    QStringList strList;
-//    strList.append("string1");
-//    strList.append("string2");
-//    strList << "string3";
-//    strList += "string4";
-//    int nCount = strList.size();
-
-//    for (int i = 0; i < nCount; i++)
-//    {
-//        QString string = static_cast<QString>(strList.at(i));
-//        QStandardItem *item = new QStandardItem(string);
-//        standardItemModel->appendRow(item);
-
-//    }
-//    listView->setModel(standardItemModel);
-//    listView->setFixedSize(800,600);
-//    connect(listView,SIGNAL(clicked(QModelIndex)),this,SLOT(itemClicked(QModelIndex)));
-
-
-
-
     initData();
     updateButtonNum();
 
@@ -177,11 +153,9 @@ void order::initData()
 
 void order::updateButtonNum()
 {
-    double virtualPrice = totalPrice;
     if(vipFlag == true && totalPrice != 0.0)
     {
         discountPrice = DISCOUNT * totalPrice;
-        virtualPrice -= discountPrice;
         ui->discountPay->setText(tr("VIP优惠  -￥%1").arg(QString::number(discountPrice,'f',2)));
         ui->discountPay->show();
     }
@@ -198,7 +172,7 @@ void order::updateButtonNum()
     ui->drinkBtn->setText(tr("饮品%1").arg(drinkNum));
     ui->fireBtn->setText(tr("炒菜%1").arg(fireNum));
     ui->orderBtn->setText(tr("已点 %1").arg(selectNum));
-    ui->checkBtn->setText(tr("确认订单 ¥:%1").arg(QString::number(virtualPrice,'f',2)));
+    ui->checkBtn->setText(tr("确认订单 ¥:%1").arg(QString::number(totalPrice - discountPrice,'f',2)));
 
 }
 
@@ -392,8 +366,8 @@ void order::on_orderBtn_toggled(bool checked)
 void order::on_checkBtn_clicked()
 {// 点击checkBtn
     this->close();
-    pys->settotal(totalPrice);
-    uc->settotal(totalPrice);
+    pys->settotal(totalPrice - discountPrice);
+    uc->settotal(totalPrice - discountPrice);
     emit ucShow();
 }
 
