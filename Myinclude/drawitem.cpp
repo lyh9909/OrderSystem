@@ -1,5 +1,7 @@
 ﻿#include "drawitem.h"
 
+#pragma execution_character_set("utf-8")  //解决中文乱码问题
+
 ItemStyleDesigner::ItemStyleDesigner(QObject *parent) : QStyledItemDelegate(parent)
 {
 
@@ -385,13 +387,13 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         }
 
         //绘制数据位置
-        QRect nameRect = QRect(rect.left() +10, rect.top(), 100, 30);
+        QRect imgRect = QRect(rect.left() +10,rect.top()+10,100,100);
+        QRect nameRect = QRect(imgRect.right()+10, rect.top()+10, 150, 30);
 //        QRect circle = QRect(rect.right() -10, rect.top()+5, 5, 5);
-        QRect priceRect = QRect(nameRect.right() +50, rect.top()+10, 50, 20);
-        QRect numRect = QRect(nameRect.right() +50, rect.bottom()-30, 100, 30);
-        QRect imgRect = QRect(rect.left() +10,nameRect.bottom()+10,100,50);
+        QRect priceRect = QRect(imgRect.right() +10, nameRect.bottom()+10, 100, 20);
+        QRect numRect = QRect(rect.right() -50, rect.bottom()-30, 50, 30);
 
-        QRect imgSource = QRect(0,0,30,30);
+        QRect imgSource = QRect(0,0,100,100);
 
 
         painter->setPen(QPen(Qt::black));
@@ -399,12 +401,15 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         painter->drawText(nameRect,Qt::AlignLeft,data.name); //绘制菜名
 
         painter->setPen(QPen(Qt::red));
-        painter->setFont(QFont("Times", 10));
-        painter->drawText(priceRect,Qt::AlignLeft, QString::number(data.price)); //绘制价格
+        painter->setFont(QFont("Times", 11));
+        painter->drawText(priceRect,Qt::AlignLeft, tr("￥ %1").arg(data.price)); //绘制价格
 
-        painter->setPen(QPen(Qt::black));
-        painter->setFont(QFont("Times", 12, QFont::Bold));
-        painter->drawText(numRect,Qt::AlignLeft,QString::number(data.num)); //绘制数量
+        if(data.num)
+        {
+            painter->setPen(QPen(Qt::black));
+            painter->setFont(QFont("Times", 11, QFont::Bold));
+            painter->drawText(numRect,Qt::AlignLeft,tr("× %1").arg(data.num)); //绘制数量
+        }
 
         painter->drawPixmap(imgRect,data.img,imgSource);
 
@@ -415,5 +420,5 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    return QSize(200, 80);//设置每个item框的大小
+    return QSize(260, 120);//设置每个item框的大小
 }

@@ -94,6 +94,13 @@ void order::initData()
     ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");
     UseODBCDataBase * uodbc = new UseODBCDataBase(db.GetSqlDatabase());
     QVector<QVector<QString> > res = uodbc->ExecGetAllData("Dishs", 5);
+    QVector<QByteArray> imgs;
+    QSqlQuery sql = QSqlQuery(db.GetSqlDatabase());
+    sql.exec("SELECT dishphoto FROM Dishs");
+    while(sql.next())
+    {
+        imgs.push_back(sql.value(0).toByteArray());
+    }
     totalNum = res.size();
     for (int i = 0; i < res.size(); ++i) {
         QStandardItem *Item = new QStandardItem;
@@ -103,7 +110,7 @@ void order::initData()
         itemData.name = res[i][1];
         itemData.price = res[i][3].toDouble();
         itemData.num = 0;
-        //itemData.img = res[i]
+        itemData.img.loadFromData(imgs[i], "png");
 
         ItemStatus itemStatus;
 

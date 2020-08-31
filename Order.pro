@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Form/dialog_pic.cpp \
     Form/login_manage.cpp \
     Form/manage.cpp \
     Myinclude/drawitem.cpp \
@@ -29,8 +30,10 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    Form/dialog_pic.h \
     Form/login_manage.h \
     Form/manage.h \
+    Form/structs.h \
     Myinclude/drawitem.h \
     Myinclude/login_w.h \
     Myinclude/sql_connect.h \
@@ -41,6 +44,7 @@ HEADERS += \
     widget.h
 
 FORMS += \
+    Form/dialog_pic.ui \
     Form/login_manage.ui \
     Form/manage.ui \
     Form/order.ui\

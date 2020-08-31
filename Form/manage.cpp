@@ -59,39 +59,50 @@ void Manage::InitModel()
 
 void Manage::on_Add_dish_clicked()
 {
-    ItemData itm;   //保存修改后的数据
-    QDialog * dialog = new QDialog(this);       //创建新对话框
-    QFormLayout form(dialog);   //为对话框添加按钮和输入框
-    QLineEdit * input1 = new QLineEdit(dialog);     //添加输入框
-    form.addRow("NO     : ", input1);
-    QLineEdit * input2 = new QLineEdit(dialog);
-    form.addRow("Name   : ", input2);
-    QLineEdit * input3 = new QLineEdit(dialog);
-    form.addRow("Price  : ", input3);
-    QLineEdit * input4 = new QLineEdit(dialog);
-    form.addRow("Numbers: ", input4);
-    QDialogButtonBox butbox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,Qt::Horizontal, dialog);    //添加按钮
-    form.addRow(&butbox);
-    connect(&butbox, SIGNAL(accepted()), dialog, SLOT(accept()) );      //连接信号和槽
-    connect(&butbox, SIGNAL(rejected()), dialog, SLOT(reject()) );
-    if(dialog->exec() == QDialog::Accepted) //如果点击OK 则
+//    ItemData itm;   //保存修改后的数据
+//    QDialog * dialog = new QDialog(this);       //创建新对话框
+//    QFormLayout form(dialog);   //为对话框添加按钮和输入框
+//    QLineEdit * input1 = new QLineEdit(dialog);     //添加输入框
+//    form.addRow("NO     : ", input1);
+//    QLineEdit * input2 = new QLineEdit(dialog);
+//    form.addRow("Name   : ", input2);
+//    QLineEdit * input3 = new QLineEdit(dialog);
+//    form.addRow("Price  : ", input3);
+//    QLineEdit * input4 = new QLineEdit(dialog);
+//    form.addRow("Numbers: ", input4);
+//    QDialogButtonBox butbox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,Qt::Horizontal, dialog);    //添加按钮
+//    form.addRow(&butbox);
+//    connect(&butbox, SIGNAL(accepted()), dialog, SLOT(accept()) );      //连接信号和槽
+//    connect(&butbox, SIGNAL(rejected()), dialog, SLOT(reject()) );
+//    if(dialog->exec() == QDialog::Accepted) //如果点击OK 则
+//    {
+//        QVector<QString> temp;
+//        temp.push_back(gettypename());      //存储要添加的数据
+//        temp.push_back(input1->text());
+//        temp.push_back(input2->text());
+//        temp.push_back(input3->text());
+//        temp.push_back(input4->text());
+//        connectsql();       //连接数据库
+//        uodbc->ExecInsertData("Dishs", temp);       //插入新数据
+//        itm.number = input1->text();    //存储结构体，以便添加卡片
+//        itm.name = input2->text();
+//        itm.price = input3->text();
+//        itm.num = input4->text();
+//        QStandardItem * Item = new QStandardItem;       //添加item
+//        Item->setData(QVariant::fromValue(itm), Qt::UserRole+1);
+//        ItemModel[ui->DishsSelect->currentIndex()]->appendRow(Item);    //在对应Listview添加item
+//    }
+
+    dialog_pic * dlg = new dialog_pic();
+    if(dlg->exec() == QDialog::Accepted)
     {
-        QVector<QString> temp;
-        temp.push_back(gettypename());      //存储要添加的数据
-        temp.push_back(input1->text());
-        temp.push_back(input2->text());
-        temp.push_back(input3->text());
-        temp.push_back(input4->text());
-        connectsql();       //连接数据库
-        uodbc->ExecInsertData("Dishs", temp);       //插入新数据
-        itm.number = input1->text();    //存储结构体，以便添加卡片
-        itm.name = input2->text();
-        itm.price = input3->text();
-        itm.num = input4->text();
-        QStandardItem * Item = new QStandardItem;       //添加item
-        Item->setData(QVariant::fromValue(itm), Qt::UserRole+1);
-        ItemModel[ui->DishsSelect->currentIndex()]->appendRow(Item);    //在对应Listview添加item
+        DishItemData ditem = dlg->getdata();
+        QStandardItem * Item = new QStandardItem;
+        Item->setData(QVariant::fromValue(ditem), Qt::UserRole+1); //设置卡片数据
+        Item->setData(ditem.Dishtype, Qt::UserRole+2);
+        ItemModel[ui->DishsSelect->currentIndex()]->appendRow(Item);    //按类别添加卡片
     }
+
 }
 
 void Manage::itemClicked(QModelIndex index)
@@ -214,15 +225,15 @@ QString Manage::gettypename()   //获取当前选项栏对应的菜品类别名�
 
 int Manage::gettypenum(QString & q) //获取字符串对应的序号
 {
-    if(q == "rice")
+    if(q == "饭")
         return 0;
-    else if(q == "noodle")
+    else if(q == "面食")
         return 1;
-    else if(q == "soup")
+    else if(q == "汤")
         return 2;
-    else if(q == "snack")
+    else if(q == "小吃")
         return 3;
-    else if(q == "drink")
+    else if(q == "饮品")
         return 4;
     else
         return 5;
@@ -424,3 +435,4 @@ void Manage::manageShow()
 {
     this->show();
 }
+

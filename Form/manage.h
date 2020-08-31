@@ -1,4 +1,4 @@
-#ifndef MANAGE_H
+﻿#ifndef MANAGE_H
 #define MANAGE_H
 
 #include <QMainWindow>
@@ -14,6 +14,7 @@
 #include <QLineEdit>
 #include <QDialogButtonBox>
 #include "Myinclude/DrawItem.h"
+#include "Form/dialog_pic.h"
 
 namespace Ui {
 class Manage;
