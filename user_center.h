@@ -20,7 +20,7 @@ public:
     explicit user_center(QWidget *parent = nullptr);
     ~user_center();
 
-    void setAll(QModelIndexList modelIndexList);
+    void setAll(QModelIndexList modelIndexList,bool vipFlag);
 
 signals:
     void ret();
@@ -30,6 +30,11 @@ private:
     Ui::user_center *ui;
     QStandardItemModel *m_model;
     ItemDelegate *m_delegate;
+
+    double totalPrice;
+    double discountPrice;
+    int orderNum;
+
 
 private slots:
     void ucShow();

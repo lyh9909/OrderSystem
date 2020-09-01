@@ -374,12 +374,11 @@ void order::on_checkBtn_clicked()
 {// 点击checkBtn
     //this->close();
     pys->settotal(totalPrice - discountPrice);
-
-    on_orderBtn_toggled(true);
+    ui->orderBtn->setChecked(true);
     ui->listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->listView->selectAll();
     QModelIndexList modelIndexList = ui->listView->selectionModel()->selectedIndexes();
-    uc->setAll(modelIndexList);
+    uc->setAll(modelIndexList, vipFlag);
     emit ucShow();
 }
 
@@ -426,6 +425,9 @@ void order::orderFresh()
 {
     this->show();
     on_clearBtn_clicked();
+    ui->allBtn->setChecked(true);
+    on_allBtn_clicked();
+
 }
 
 void order::user(QString str,bool vip)
