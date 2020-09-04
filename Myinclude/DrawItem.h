@@ -86,10 +86,10 @@ private:
 
 struct ItemOrderData{
     QString onumber;
-    QString order;
-    QString content;
+    QString ouser;
     QString totalprice;
-    //QString sell;
+    QString content;
+    QString mark;
 };
 
 Q_DECLARE_METATYPE(ItemOrderData)

@@ -25,21 +25,24 @@ user_center::~user_center()
 }
 
 
-void user_center::setAll(QModelIndexList modelIndexList, bool vipFlag)
+void user_center::setAll(QModelIndexList modelIndexList,QString user, bool vipFlag)
 {
+    m_modelIndexList = modelIndexList;
+    userName = user;
+    vip = vipFlag;
     totalPrice = 0;
     discountPrice = 0;
 
     m_model->removeRows(0,m_model->rowCount());
 
-    QDateTime curDateTime=QDateTime::currentDateTime();
+    curDateTime = QDateTime::currentDateTime();
 
     QStringList strList;
     strList.append("");
     strList.append("");
     strList.append("-------------------------------");
     strList.append(tr("下单时间：%1").arg(curDateTime.toString("yyyy-MM-dd hh:mm:ss")));
-    strList.append(tr("下单桌号：%1").arg(curDateTime.toString("yyyyMMdd")));
+    strList.append(tr("下单编号：%1").arg(curDateTime.toString("yyyyMMddhhmmss")));
     strList.append("-------------------------------");
 
     for (QModelIndex modelIndex : modelIndexList)
@@ -50,6 +53,7 @@ void user_center::setAll(QModelIndexList modelIndexList, bool vipFlag)
         strList.append(tr("%1 ").arg(data.name));
         strList.append(tr("     ×%1     ￥%2").arg(data.num).arg(data.price*data.num));
         totalPrice += data.price * data.num;
+        orderContent += data.name + "*"+QString::number(data.num) + " ";
 
     }
     strList.append("-------------------------------");
@@ -69,6 +73,8 @@ void user_center::setAll(QModelIndexList modelIndexList, bool vipFlag)
         m_model->appendRow(item);
 
     }
+
+
 }
 
 void user_center::ucShow()
@@ -86,5 +92,17 @@ void user_center::on_returnBtn_clicked()
 void user_center::on_payBtn_clicked()
 {
     this->close();
+    QVector<QString> temp;  //存储修改后的数据
+    temp.push_back(curDateTime.toString("yyyyMMddhhmmss"));
+    temp.push_back(userName);
+    temp.push_back(QString::number(totalPrice - discountPrice));
+    temp.push_back(orderContent);
+    temp.push_back(ui->orderMark->toPlainText());
+    ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");
+    db.OpenDataBase();
+    uodbc = new UseODBCDataBase(db.GetSqlDatabase());
+
+    uodbc->ExecInsertData("Orders", temp);       //插入新数据
+
     emit payShow();
 }

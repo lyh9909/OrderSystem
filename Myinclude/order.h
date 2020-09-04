@@ -91,6 +91,7 @@ private:
     int fireNum;
     int selectNum;
     double totalPrice;
+    QString userName;
     bool vipFlag;
     double discountPrice;
 

@@ -185,7 +185,7 @@ void ItemOrderDesigner::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
         painter->setPen(QPen(Qt::black));
         painter->setFont(QFont("Times", 14, QFont::Bold));
-        painter->drawText(OrderRect,Qt::AlignLeft,data.order);
+        painter->drawText(OrderRect,Qt::AlignLeft,data.ouser);
 
         painter->setPen(QPen(Qt::black));
         painter->setFont(QFont("Times", 14));
@@ -353,13 +353,13 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
             if(selectStatus == Select)
             {
                 painter->setPen(QPen(Qt::gray));
-                painter->setBrush(QColor(119, 255, 194, 125)); //设置背景颜色
+                painter->setBrush(QColor(119, 255, 194, 255)); //设置背景颜色
                 painter->drawPath(path);
             }
             else
             {
                 painter->setPen(QPen(Qt::gray));
-                painter->setBrush(Qt::NoBrush);
+                painter->setBrush(QColor(255, 255, 255, 255));
                 painter->drawPath(path);
             }
 
@@ -367,7 +367,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         else if(option.state.testFlag(QStyle::State_MouseOver))
         {// 鼠标停留item
             painter->setPen(QPen(Qt::green));
-            painter->setBrush(Qt::NoBrush);
+            painter->setBrush(QColor(255, 255, 255, 255));
             painter->drawPath(path);
         }
         else{
@@ -381,7 +381,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
             else
             {
                 painter->setPen(QPen(Qt::gray));
-                painter->setBrush(Qt::NoBrush);
+                painter->setBrush(QColor(255, 255, 255, 255));
                 painter->drawPath(path);
             }
         }

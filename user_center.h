@@ -20,7 +20,8 @@ public:
     explicit user_center(QWidget *parent = nullptr);
     ~user_center();
 
-    void setAll(QModelIndexList modelIndexList,bool vipFlag);
+    void connectsql();      //连接数据库
+    void setAll(QModelIndexList modelIndexList,QString user,bool vipFlag);
 
 signals:
     void ret();
@@ -30,6 +31,12 @@ private:
     Ui::user_center *ui;
     QStandardItemModel *m_model;
     ItemDelegate *m_delegate;
+    QModelIndexList m_modelIndexList;
+    QDateTime curDateTime;
+    QString orderContent;
+    QString userName;
+    bool vip;
+    UseODBCDataBase * uodbc;
 
     double totalPrice;
     double discountPrice;

@@ -17,5 +17,6 @@
         <file>Picture/notification.png</file>
         <file>Picture/return.png</file>
         <file>Picture/quit.png</file>
+        <file>Picture/background0.jpg</file>
     </qresource>
 </RCC>

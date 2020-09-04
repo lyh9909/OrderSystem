@@ -274,7 +274,7 @@ void Manage::getorders(QVector<ItemOrderData> & ida)
     {
         ItemOrderData itemdata;
         itemdata.onumber = res[i][0];
-        itemdata.order = res[i][1];
+        itemdata.ouser = res[i][1];
         itemdata.totalprice = res[i][2];
         itemdata.content = res[i][3];
         ida.push_back(itemdata);
@@ -291,7 +291,7 @@ void Manage::on_Change_Order_clicked()
     input1->setText(itm.onumber);
     form.addRow("NO             : ", input1);
     QLineEdit * input2 = new QLineEdit(dialog);
-    input2->setText(itm.order);
+    input2->setText(itm.ouser);
     form.addRow("Order Person   : ", input2);
     QLineEdit * input3 = new QLineEdit(dialog);
     input3->setText(itm.totalprice);
@@ -313,7 +313,7 @@ void Manage::on_Change_Order_clicked()
         connectsql();       //连接数据库
         uodbc->ExecUpdataData("Orders", "ordernumber", itm.onumber, ordercolnames, temp);       //更新数据库数据
         itm.onumber = input1->text();
-        itm.order = input2->text();
+        itm.ouser = input2->text();
         itm.totalprice = input3->text();
         itm.content = input4->text();   //刷新卡片
         QModelIndexList lists;      //获取索引列表

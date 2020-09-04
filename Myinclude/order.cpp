@@ -4,6 +4,7 @@
 #include <QBrush>
 #include <QRadialGradient>
 #include <QDebug>
+#include <QList>
 
 #pragma execution_character_set("utf-8")  //解决中文乱码问题
 
@@ -378,7 +379,7 @@ void order::on_checkBtn_clicked()
     ui->listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->listView->selectAll();
     QModelIndexList modelIndexList = ui->listView->selectionModel()->selectedIndexes();
-    uc->setAll(modelIndexList, vipFlag);
+    uc->setAll(modelIndexList, userName,vipFlag);
     emit ucShow();
 }
 
@@ -418,12 +419,12 @@ void order::on_clearBtn_clicked()
 
 void order::orderShow()
 {
-    this->show();
+    this->showFullScreen();
 }
 
 void order::orderFresh()
 {
-    this->show();
+    this->showFullScreen();
     on_clearBtn_clicked();
     ui->allBtn->setChecked(true);
     on_allBtn_clicked();
@@ -432,6 +433,7 @@ void order::orderFresh()
 
 void order::user(QString str,bool vip)
 {
+    userName = str;
     vipFlag = vip;
     if(vip == true)
     {
