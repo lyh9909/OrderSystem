@@ -5,6 +5,7 @@
 #include <QRadialGradient>
 #include <QDebug>
 #include <QList>
+#include <QSizePolicy>
 
 #pragma execution_character_set("utf-8")  //解决中文乱码问题
 
@@ -67,6 +68,17 @@ order::order(QWidget *parent) :
 
     ui->spinNum->setRange(0,50);
 
+    ui->gridLayout->setRowMinimumHeight(2,35);
+    ui->gridLayout->setRowMinimumHeight(3,65);
+    ui->gridLayout->setColumnMinimumWidth(0,150);
+    ui->verticalLayout->setSpacing(20);
+
+    QPixmap pixmap = QPixmap(":/new/Pic_/Picture/background0.jpg");
+
+    QPalette palette(this->palette());
+    palette.setBrush(QPalette::Background, QBrush(pixmap));
+    this->setPalette(palette);
+    this->setAutoFillBackground(true);
 
 }
 

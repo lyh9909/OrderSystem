@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     p.setWindowTitle("订单支付");
     uc.setWindowTitle("我的订单");
 
+
     QObject::connect(&w,SIGNAL(loginShow()),&l,SLOT(loginShow()));
     QObject::connect(&w,SIGNAL(loginManageShow()),&l_m,SLOT(loginManageShow()));
     QObject::connect(&l,SIGNAL(orderShow()),&o,SLOT(orderFresh()));
