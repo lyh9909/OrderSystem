@@ -69,11 +69,12 @@ order::order(QWidget *parent) :
 
 
     ui->spinNum->setRange(0,50);
-
+    ui->gridLayout->setRowMinimumHeight(1,35);
     ui->gridLayout->setRowMinimumHeight(2,35);
     ui->gridLayout->setRowMinimumHeight(3,65);
     ui->gridLayout->setColumnMinimumWidth(0,150);
     ui->verticalLayout->setSpacing(20);
+//    ui->gridLayout->addWidget(ui->checkBtn,2,6,2,1);
 
     QPixmap pixmap = QPixmap(":/new/Pic_/Picture/background0.jpg");
 
@@ -106,7 +107,8 @@ void order::initData()
     ui->clearLabel->hide();
 
     m_model = new QStandardItemModel();
-    ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");
+    ConnectSQLODBC db("QODBC", "172.20.10.2", "Test", "root", "only123456");
+    db.OpenDataBase();
     UseODBCDataBase * uodbc = new UseODBCDataBase(db.GetSqlDatabase());
     QVector<QVector<QString> > res = uodbc->ExecGetAllData("Dishs", 5);
     QVector<QByteArray> imgs;
@@ -123,7 +125,7 @@ void order::initData()
         ItemiData itemData;
 
         itemData.name = res[i][1];
-        itemData.price = res[i][3].toDouble();
+        itemData.price = res[i][2].toDouble();
         itemData.num = 0;
         itemData.img.loadFromData(imgs[i], "png");
 
@@ -403,7 +405,7 @@ void order::on_checkBtn_clicked()
     ui->listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->listView->selectAll();
     QModelIndexList modelIndexList = ui->listView->selectionModel()->selectedIndexes();
-    uc->setAll(modelIndexList, userName,vipLevel);
+    uc->setAll(modelIndexList, userName,vipLevel,ui->personBox->currentIndex() + 1);
     emit ucShow();
 }
 

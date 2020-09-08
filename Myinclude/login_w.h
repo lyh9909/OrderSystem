@@ -39,6 +39,7 @@ class SignUpUser : public BaseSignUpUser
 {
 private:
     UseODBCDataBase * udb;
+    ConnectSQLODBC * cnt;
 public:
     SignUpUser() : udb(nullptr){}
     virtual void CreatConnect();

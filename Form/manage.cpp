@@ -112,7 +112,7 @@ void Manage::itemClicked(QModelIndex index)
 
 void Manage::connectsql()
 {
-    ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");    //连接数据库
+    ConnectSQLODBC db("QODBC", "172.20.10.2", "Test", "root", "only123456");    //连接数据库
     if(db.OpenDataBase())
     {
         uodbc = new UseODBCDataBase(db.GetSqlDatabase());

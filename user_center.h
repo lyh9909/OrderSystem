@@ -21,7 +21,7 @@ public:
     ~user_center();
 
     void connectsql();      //连接数据库
-    void setAll(QModelIndexList modelIndexList,QString user,int vipLevel);
+    void setAll(QModelIndexList modelIndexList,QString user,int vipLevel,int person);
 
 signals:
     void ret();
@@ -41,6 +41,7 @@ private:
     double totalPrice;
     double discountPrice;
     int orderNum;
+    int orderperson;
 
 
 private slots:

@@ -27,11 +27,12 @@ user_center::~user_center()
 }
 
 
-void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLevel)
+void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLevel,int person)
 {
     m_modelIndexList = modelIndexList;
     userName = user;
     vip = vipLevel;
+    orderperson = person;
     totalPrice = 0;
     discountPrice = 0;
 
@@ -109,8 +110,9 @@ void user_center::on_payBtn_clicked()
     temp.push_back(userName);
     temp.push_back(QString::number(totalPrice - discountPrice));
     temp.push_back(orderContent);
+    temp.push_back(QString::number(orderperson));
     temp.push_back(ui->orderMark->toPlainText());
-    ConnectSQLODBC db("QODBC", "localhost", "Test", "", "");
+    ConnectSQLODBC db("QODBC", "172.20.10.2", "Test","root", "only123456");
     db.OpenDataBase();
     uodbc = new UseODBCDataBase(db.GetSqlDatabase());
 

@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
 
     Widget w;
     login l;
-    login_manage l_m;
-    Manage m;
+    //login_manage l_m;
+    //Manage m;
     order o;
     pay p;
     user_center uc;
@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
 
 
     QObject::connect(&w,SIGNAL(loginShow()),&l,SLOT(loginShow()));
-    QObject::connect(&w,SIGNAL(loginManageShow()),&l_m,SLOT(loginManageShow()));
+    //QObject::connect(&w,SIGNAL(loginManageShow()),&l_m,SLOT(loginManageShow()));
     QObject::connect(&l,SIGNAL(orderShow()),&o,SLOT(orderFresh()));
-    QObject::connect(&l_m,SIGNAL(manageShow()),&m,SLOT(manageShow()));
+    //QObject::connect(&l_m,SIGNAL(manageShow()),&m,SLOT(manageShow()));
     QObject::connect(&o,SIGNAL(quit()),&l,SLOT(loginShow()));
     QObject::connect(&o,SIGNAL(ucShow()),&uc,SLOT(ucShow()));
     QObject::connect(&uc,SIGNAL(ret()),&o,SLOT(orderShow()));
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
     o.setuc(&uc);
     o.setpys(&p);
-    o.setmanage(&m);
+    //o.setmanage(&m);
     l.setOrder(&o);
 
     w.show();
