@@ -21,7 +21,7 @@ public:
     ~user_center();
 
     void connectsql();      //连接数据库
-    void setAll(QModelIndexList modelIndexList,QString user,bool vipFlag);
+    void setAll(QModelIndexList modelIndexList,QString user,int vipLevel);
 
 signals:
     void ret();
@@ -35,7 +35,7 @@ private:
     QDateTime curDateTime;
     QString orderContent;
     QString userName;
-    bool vip;
+    int vip;
     UseODBCDataBase * uodbc;
 
     double totalPrice;

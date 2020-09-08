@@ -23,18 +23,22 @@ bool CheckUser::IsTheSame(const QString & username, const QString & password, co
         return false;
 }
 
-bool CheckUser::IsVip(const QString &username,const QString & vip)
+int CheckUser::Vip(const QString &username)
 {
     QVector<QString> res = udb->ExecFindData("Accounts", "Username",username, 4);
-    if(res.size())  //判断用户是否为会员
+    if(res.size())
     {
-        if(res[2] == vip)
-            return true;
+        if(res[2] == "1")
+            return 1;
+        else if(res[2] == "2")
+            return 2;
+        else if(res[2] == "3")
+            return 3;
         else
-            return false;
+            return 0;
     }
     else
-        return false;
+        return 0;
 }
 
 void SignUpUser::CreatConnect()

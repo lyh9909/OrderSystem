@@ -1,7 +1,9 @@
 ﻿#include "user_center.h"
 #include "ui_user_center.h"
 
-#define DISCOUNT 0.12
+#define DISCOUNT1 0.05
+#define DISCOUNT2 0.1
+#define DISCOUNT3 0.15
 
 #pragma execution_character_set("utf-8")  //解决中文乱码问题
 
@@ -25,11 +27,11 @@ user_center::~user_center()
 }
 
 
-void user_center::setAll(QModelIndexList modelIndexList,QString user, bool vipFlag)
+void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLevel)
 {
     m_modelIndexList = modelIndexList;
     userName = user;
-    vip = vipFlag;
+    vip = vipLevel;
     totalPrice = 0;
     discountPrice = 0;
 
@@ -58,9 +60,19 @@ void user_center::setAll(QModelIndexList modelIndexList,QString user, bool vipFl
     }
     strList.append("-------------------------------");
     strList.append(tr("合计：￥%1").arg(QString::number(totalPrice,'f',2)));
-    if(vipFlag == true)
+    if(vip)
     {
-        discountPrice = DISCOUNT * totalPrice;
+        switch (vip) {
+        case 1:
+            discountPrice = DISCOUNT1 * totalPrice;
+            break;
+        case 2:
+            discountPrice = DISCOUNT2 * totalPrice;
+            break;
+        default:
+            discountPrice = DISCOUNT3 * totalPrice;
+            break;
+        }
         strList.append(tr("优惠：-￥%1").arg(QString::number(discountPrice,'f',2)));
     }
     strList.append(tr("应付：￥%1").arg(QString::number(totalPrice - discountPrice,'f',2)));

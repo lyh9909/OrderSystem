@@ -2,9 +2,9 @@
 #include "ui_login.h"
 
 
-login::login(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::login)
+login::login(QWidget *parent):
+    QWidget(parent),
+    ui(new Ui::login)
 {
     ui->setupUi(this);
     connect(this, SIGNAL(orderShow()), this, SLOT(judgeVip()));
@@ -48,7 +48,7 @@ void login::judgeVip()
 {
     CheckUser * chs = new CheckUser();
     chs->CreatConnect();        //创建连接
-    oo->user(ui->Input_User->text(),chs->IsVip(ui->Input_User->text(), "1"));
+    oo->user(ui->Input_User->text(),chs->Vip(ui->Input_User->text()));
 }
 
 void login::loginShow()

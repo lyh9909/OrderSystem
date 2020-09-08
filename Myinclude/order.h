@@ -33,7 +33,7 @@ public:
     void setuc(user_center * u);
     void setpys(pay * p);
     void setmanage(Manage * m);
-    void user(QString str,bool vip);
+    void user(QString str,int vip);
 
 //private:
 //    Ui::order *ui;
@@ -93,7 +93,7 @@ private:
     int selectNum;
     double totalPrice;
     QString userName;
-    bool vipFlag;
+    int vipLevel;
     double discountPrice;
 
     void initData();

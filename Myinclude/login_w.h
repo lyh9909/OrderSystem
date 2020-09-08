@@ -10,7 +10,7 @@ public:
     virtual ~BaseCheckUser() {}
     virtual void CreatConnect() = 0;    //创建连接
     virtual bool IsTheSame(const QString & username, const QString & password, const QString & power) = 0;      //判断是否相同
-    virtual bool IsVip(const QString & username,const QString & vip) = 0;
+    virtual int Vip(const QString & username) = 0;
 };
 
 class CheckUser : public BaseCheckUser
@@ -21,7 +21,7 @@ public:
     CheckUser() : udb(nullptr){}
     virtual void CreatConnect();
     virtual bool IsTheSame(const QString & username, const QString & password, const QString & power);
-    virtual bool IsVip(const QString & username,const QString & vip);
+    virtual int Vip(const QString & username);
 
 };
 

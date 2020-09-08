@@ -9,7 +9,9 @@
 
 #pragma execution_character_set("utf-8")  //解决中文乱码问题
 
-#define DISCOUNT 0.12
+#define DISCOUNT1 0.05
+#define DISCOUNT2 0.1
+#define DISCOUNT3 0.15
 
 order::order(QWidget *parent) :
     QWidget(parent),
@@ -173,9 +175,19 @@ void order::initData()
 
 void order::updateButtonNum()
 {
-    if(vipFlag == true && totalPrice != 0.0)
+    if(vipLevel && totalPrice != 0.0)
     {
-        discountPrice = DISCOUNT * totalPrice;
+        switch (vipLevel) {
+        case 1:
+            discountPrice = DISCOUNT1 * totalPrice;
+            break;
+        case 2:
+            discountPrice = DISCOUNT2 * totalPrice;
+            break;
+        default:
+            discountPrice = DISCOUNT3 * totalPrice;
+            break;
+        }
         ui->discountPay->setText(tr("VIP优惠  -￥%1").arg(QString::number(discountPrice,'f',2)));
         ui->discountPay->show();
     }
@@ -391,7 +403,7 @@ void order::on_checkBtn_clicked()
     ui->listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->listView->selectAll();
     QModelIndexList modelIndexList = ui->listView->selectionModel()->selectedIndexes();
-    uc->setAll(modelIndexList, userName,vipFlag);
+    uc->setAll(modelIndexList, userName,vipLevel);
     emit ucShow();
 }
 
@@ -443,13 +455,13 @@ void order::orderFresh()
 
 }
 
-void order::user(QString str,bool vip)
+void order::user(QString str,int vip)
 {
     userName = str;
-    vipFlag = vip;
-    if(vip == true)
+    vipLevel = vip;
+    if(vip)
     {
-        ui->UserName->setText(str + "  VIP");
+        ui->UserName->setText(str + "  VIP" + QString::number(vipLevel));
     }
     else
     {
