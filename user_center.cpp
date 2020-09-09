@@ -19,6 +19,11 @@ user_center::user_center(QWidget *parent) :
     ui->listView->setEditTriggers(QAbstractItemView:: NoEditTriggers);
 //    connect(ui->listView,SIGNAL(clicked(QModelIndex)),this,SLOT(itemClicked(QModelIndex)));
 
+    fTimer=new QTimer(this);
+    fTimer->stop();
+    fTimer->setInterval (1000) ;//设置定时周期，单位：毫秒
+    connect(fTimer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
+
 }
 
 user_center::~user_center()
@@ -27,11 +32,12 @@ user_center::~user_center()
 }
 
 
-void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLevel,int person)
+void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLevel,QString table,int person)
 {
     m_modelIndexList = modelIndexList;
     userName = user;
     vip = vipLevel;
+    tableUse = table;
     orderperson = person;
     totalPrice = 0;
     discountPrice = 0;
@@ -39,13 +45,14 @@ void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLev
     m_model->removeRows(0,m_model->rowCount());
 
     curDateTime = QDateTime::currentDateTime();
+    orderList = curDateTime.toString("yyyyMMddhhmmss");
+
 
     QStringList strList;
     strList.append("");
-    strList.append("");
     strList.append("-------------------------------");
     strList.append(tr("下单时间：%1").arg(curDateTime.toString("yyyy-MM-dd hh:mm:ss")));
-    strList.append(tr("下单编号：%1").arg(curDateTime.toString("yyyyMMddhhmmss")));
+    strList.append(tr("下单编号：%1").arg(orderList));
     strList.append("-------------------------------");
 
     for (QModelIndex modelIndex : modelIndexList)
@@ -93,6 +100,14 @@ void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLev
 void user_center::ucShow()
 {//显示即时订单
     this->show();
+    ui->payBtn->show();
+
+}
+
+void user_center::ucFresh()
+{//显示完成订单
+    this->show();
+    ui->payBtn->hide();
 
 }
 
@@ -106,7 +121,7 @@ void user_center::on_payBtn_clicked()
 {
     this->close();
     QVector<QString> temp;  //存储修改后的数据
-    temp.push_back(curDateTime.toString("yyyyMMddhhmmss"));
+    temp.push_back(orderList);
     temp.push_back(userName);
     temp.push_back(QString::number(totalPrice - discountPrice));
     temp.push_back(orderContent);
@@ -115,8 +130,21 @@ void user_center::on_payBtn_clicked()
     ConnectSQLODBC db("QODBC", "172.20.10.2", "Test","root", "only123456");
     db.OpenDataBase();
     uodbc = new UseODBCDataBase(db.GetSqlDatabase());
-
     uodbc->ExecInsertData("Orders", temp);       //插入新数据
 
+    fTimer->start();
+    qsocket = new QTcpSocket(this);
+    connect(qsocket,&QTcpSocket::connected,[=](){});
+    quint16 port = 8888;
+    QString ip = "172.20.10.2";
+    qsocket->connectToHost(QHostAddress(ip),port);
+
     emit payShow();
+}
+
+void user_center::timerUpdate()
+{
+    QString send = tableUse +'#'+orderList;
+    qsocket->write(send.toUtf8().data());
+    fTimer->stop();
 }

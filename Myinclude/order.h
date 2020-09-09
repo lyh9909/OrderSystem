@@ -62,12 +62,12 @@ private slots:
     void on_orderBtn_toggled(bool checked);
     void on_checkBtn_clicked();  
     void on_clearBtn_clicked();
+    void on_deleteBtn_clicked();
 
     void orderShow();
     void orderFresh();
     void userCenter_selected();
     void quit_selected();
-
 
 
 private:
@@ -102,6 +102,7 @@ private:
 signals:
     void quit();
     void ucShow();
+    void ucFresh();
 
 };
 

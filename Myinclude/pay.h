@@ -25,7 +25,7 @@ public:
 private slots:
     void on_payBtn_clicked();
 
-    void on_cancelBtn_clicked();
+    void on_laterBtn_clicked();
 
     void payShow();
 
@@ -37,7 +37,7 @@ protected:
 
 
 signals:
-    void ucShow();
+    void orderFresh();
 };
 
 #endif // PAY_H

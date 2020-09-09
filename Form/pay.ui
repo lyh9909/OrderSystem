@@ -55,6 +55,9 @@
    <property name="text">
     <string/>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
@@ -295,7 +298,7 @@ border-radius:10px;</string>
     <string>确认支付</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="cancelBtn">
+  <widget class="QPushButton" name="laterBtn">
    <property name="geometry">
     <rect>
      <x>391</x>
@@ -316,7 +319,7 @@ border:2px solid rgb(255,255,255);
 border-radius:10px;</string>
    </property>
    <property name="text">
-    <string>取消支付</string>
+    <string>前台支付</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_10">

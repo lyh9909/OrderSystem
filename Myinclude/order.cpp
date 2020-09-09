@@ -405,7 +405,7 @@ void order::on_checkBtn_clicked()
     ui->listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->listView->selectAll();
     QModelIndexList modelIndexList = ui->listView->selectionModel()->selectedIndexes();
-    uc->setAll(modelIndexList, userName,vipLevel,ui->personBox->currentIndex() + 1);
+    uc->setAll(modelIndexList, userName,vipLevel,ui->tableBox->currentText(),ui->personBox->currentIndex() + 1);
     emit ucShow();
 }
 
@@ -442,6 +442,32 @@ void order::on_clearBtn_clicked()
     ui->listView->setSelectionMode(QAbstractItemView::SingleSelection);
 }
 
+void order::on_deleteBtn_clicked()
+{
+    QModelIndexList modelIndexList = ui->listView->selectionModel()->selectedIndexes();
+    QModelIndexList sourceIndexList;
+    for (QModelIndex modelIndex : modelIndexList){
+        sourceIndexList<<m_proxyModel->mapToSource(modelIndex); //获取源model的modelIndex
+    }
+
+    for (QModelIndex sourceIndex : sourceIndexList){
+
+        ItemSelect selectStatus = (ItemSelect)(sourceIndex.data(Qt::UserRole+1).toInt());
+
+        QVariant variant = sourceIndex.data(Qt::UserRole+2);
+        ItemiData data = variant.value<ItemiData>();
+
+        totalPrice -= data.price * data.num;
+        data.num = 0;
+        selectStatus = None;
+        selectNum--;
+
+        m_model->setData(sourceIndex,selectStatus,Qt::UserRole+1);
+        m_model->setData(sourceIndex,QVariant::fromValue(data),Qt::UserRole+2);
+    }
+    updateButtonNum();
+}
+
 
 void order::orderShow()
 {
@@ -473,8 +499,7 @@ void order::user(QString str,int vip)
 
 void order::userCenter_selected()
 {
-    this->hide();
-    emit ucShow();
+    emit ucFresh();
 
 }
 
@@ -498,6 +523,8 @@ void order::setmanage(Manage *m)
 {
     manag = m;
 }
+
+
 
 
 
