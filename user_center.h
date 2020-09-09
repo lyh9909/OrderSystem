@@ -40,6 +40,7 @@ private:
     QStandardItemModel *m_model;
     ItemDelegate *m_delegate;
     QModelIndexList m_modelIndexList;
+    QVector<QString> colnames;
     QDateTime curDateTime;
     QString orderContent;
     QString userName;

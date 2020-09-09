@@ -1,4 +1,4 @@
-#ifndef SQL_CONNECT_H
+﻿#ifndef SQL_CONNECT_H
 #define SQL_CONNECT_H
 
 #include <QtSql>
@@ -61,6 +61,8 @@ public:
     virtual void ExecInsertData(const QString & tablename, const QVector<QString> & datas) = 0;     //插入数据
     virtual void ExecUpdataData(const QString & tablename, const QString & colname, const QString & coldata,
                                 const QVector<QString> & colnames, const QVector<QString> & datas) = 0;   //修改数据
+    virtual void ExecChangeData(const QString & tablename, const QString & colname, const QString & datas,
+                                         const QString & newcol,const QString & newdata) = 0;
     virtual void ExecDeleteData(const QString & tablename, const QString & colname, const QString & datas) = 0;   //删除数据
     virtual QVector<QString> ExecFindData(const QString & tablename, const QString & colname, const QString & datas, int nums) = 0;     //查找指定数据
     virtual QVector<QVector<QString> > ExecGetSpecData(const QString & tablename, const QString & colname, const QString & datas, int nums) = 0; //获取指定数据
@@ -82,9 +84,11 @@ public:
     virtual void ExecInsertData(const QString & tablename, const QVector<QString> & datas);
     virtual void ExecUpdataData(const QString & tablename, const QString & colname, const QString & coldata,
                                 const QVector<QString> & colnames, const QVector<QString> & datas);
+    virtual void ExecChangeData(const QString & tablename, const QString & colname, const QString & datas,
+                                         const QString & newcol,const QString & newdata);
     virtual void ExecDeleteData(const QString & tablename, const QString & colname, const QString & datas);
     virtual QVector<QString> ExecFindData(const QString & tablename, const QString & colname, const QString & datas, int nums);     //查找指定数据
-    virtual QVector<QVector<QString> > ExecGetSpecData(const QString & tablename, const QString & colname, const QString & datas, int nums); //获取指数据
+    virtual QVector<QVector<QString> > ExecGetSpecData(const QString & tablename, const QString & colname, const QString & datas, int nums); //获取指定数据
 };
 
 

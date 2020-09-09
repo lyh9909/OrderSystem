@@ -1,4 +1,4 @@
-#include "sql_connect.h"
+﻿#include "sql_connect.h"
 
 void ConnectSQLODBC::SetDataSource(const QString & sourcename)
 {
@@ -161,6 +161,14 @@ void UseODBCDataBase::ExecUpdataData(const QString & tablename, const QString & 
     }
     temp += colnames[length-1] + " = " + "\'" + datas[length-1] + "\' ";
     sql.exec("UPDATE " + tablename + " SET " + temp + " WHERE " + colname + " = \'" + coldata +"\'");   //执行SQL操作，更新数据
+}
+
+void UseODBCDataBase::ExecChangeData(const QString & tablename, const QString & colname, const QString & data,
+                                     const QString & newcol,const QString & newdata)
+{
+    if(tablename.size() == 0)
+        return;
+    sql.exec("UPDATE " + tablename + " SET " + newcol + "=" + "\'" + newdata + "\'" + " WHERE " + colname + "=" + "\'" + data + "\'");
 }
 
 void UseODBCDataBase::ExecDeleteData(const QString & tablename, const QString & colname, const QString & datas)

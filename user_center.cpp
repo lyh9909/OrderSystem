@@ -19,6 +19,12 @@ user_center::user_center(QWidget *parent) :
     ui->listView->setEditTriggers(QAbstractItemView:: NoEditTriggers);
 //    connect(ui->listView,SIGNAL(clicked(QModelIndex)),this,SLOT(itemClicked(QModelIndex)));
 
+    colnames.push_back("dishnumber");   //创建列名列表
+    colnames.push_back("dishname");
+    colnames.push_back("dishphoto");
+    colnames.push_back("dishprice");
+    colnames.push_back("dishsell");
+
     fTimer=new QTimer(this);
     fTimer->stop();
     fTimer->setInterval (1000) ;//设置定时周期，单位：毫秒
@@ -41,6 +47,7 @@ void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLev
     orderperson = person;
     totalPrice = 0;
     discountPrice = 0;
+    orderContent = "";
 
     m_model->removeRows(0,m_model->rowCount());
 
@@ -61,9 +68,10 @@ void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLev
         ItemiData data = variant.value<ItemiData>();
 
         strList.append(tr("%1 ").arg(data.name));
-        strList.append(tr("     ×%1     ￥%2").arg(data.num).arg(data.price*data.num));
+        strList.append(tr("             ×%1     ￥%2").arg(data.num).arg(data.price*data.num));
         totalPrice += data.price * data.num;
         orderContent += data.name + "*"+QString::number(data.num) + " ";
+
 
     }
     strList.append("-------------------------------");
@@ -100,8 +108,14 @@ void user_center::setAll(QModelIndexList modelIndexList,QString user, int vipLev
 void user_center::ucShow()
 {//显示即时订单
     this->show();
-    ui->payBtn->show();
-
+    if((totalPrice - discountPrice) == 0.0)
+    {
+        ui->payBtn->hide();
+    }
+    else
+    {
+        ui->payBtn->show();
+    }
 }
 
 void user_center::ucFresh()
@@ -119,7 +133,7 @@ void user_center::on_returnBtn_clicked()
 
 void user_center::on_payBtn_clicked()
 {
-    this->close();
+
     QVector<QString> temp;  //存储修改后的数据
     temp.push_back(orderList);
     temp.push_back(userName);
@@ -132,6 +146,18 @@ void user_center::on_payBtn_clicked()
     uodbc = new UseODBCDataBase(db.GetSqlDatabase());
     uodbc->ExecInsertData("Orders", temp);       //插入新数据
 
+
+    for (QModelIndex modelIndex : m_modelIndexList)
+    {
+        QVariant variant = modelIndex.data(Qt::UserRole+2);
+        ItemiData data = variant.value<ItemiData>();
+        QVector<QVector<QString> > res = uodbc->ExecGetSpecData("Dishs","dishname",data.name,5);
+        int sellnum = res[0][4].toInt() + data.num;
+        qDebug() << sellnum;
+        uodbc->ExecChangeData("Dishs","dishname",data.name,"dishsell",QString::number(sellnum));
+    }
+
+
     fTimer->start();
     qsocket = new QTcpSocket(this);
     connect(qsocket,&QTcpSocket::connected,[=](){});
@@ -140,6 +166,7 @@ void user_center::on_payBtn_clicked()
     qsocket->connectToHost(QHostAddress(ip),port);
 
     emit payShow();
+    this->close();
 }
 
 void user_center::timerUpdate()
